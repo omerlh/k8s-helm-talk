@@ -1,0 +1,14 @@
+team: alldaydevops
+nameOverride: amazing-api
+ingress:
+  enabled: true
+  # Used to create an Ingress record.
+  hosts:
+    - amazing-api.alldaydevops.local
+image:
+  version: 1.0
+  repository: local
+  pullPolicy: IfNotPresent
+service:
+  internalPort: 9999
+  isAlivePath: /api/values

@@ -33,7 +33,7 @@ HAI 1.4
 
     BTW bind to a local port
     I HAS A sock
-    sock R I IZ SOCKS'Z BIND YR "127.0.0.1" AN YR 13337 MKAY
+    sock R I IZ SOCKS'Z BIND YR "0.0.0.0" AN YR 13337 MKAY
 
     IM IN YR loop
         BTW receive a connection

@@ -1,0 +1,5 @@
+*.tgz
+bin/
+obj/
+.vs/
+elm-stuff/
