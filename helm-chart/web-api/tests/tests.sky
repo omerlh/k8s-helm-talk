@@ -1,0 +1,52 @@
+def test_name_should_be_service_name():
+    if spec["kind"] != "Secret" or spec["metadata"]["name"] != "RELEASE-NAME-some-api-app-secrets":
+      name = spec["metadata"]["name"]
+      assert_equal(name, "some-api", "name should be the service name")
+
+def test_namespace_should_be_team_name():
+    name = spec["metadata"]["namespace"]
+    assert_equal(name, "some-team", "namespace should be the team name")
+
+def test_for_image_pull_secret():
+    if spec["kind"] == "Deployment":
+        imagePullSecrets = spec["spec"]["template"]["spec"]["imagePullSecrets"][0]["name"]
+        assert_equal(imagePullSecrets, "test", "should add image pull secret")
+
+def test_for_env_from():
+    if spec["kind"] == "Deployment":
+        for container in spec["spec"]["template"]["spec"]["containers"]:
+            if container["name"] == "web-api":
+                secret_ref_name = container["envFrom"][0]["configMapRef"]["name"]
+                assert_equal(secret_ref_name, "some-api", "should read env from config map")
+
+def test_for_ingress_host():
+    if spec["kind"] == "Ingress":
+        assert_equal(spec["spec"]["rules"][0]["host"], "some-api.local", "host should exist with the given dns")
+
+def test_for_ingress_host_tls():
+    if spec["kind"] == "Ingress":
+        assert_equal(spec["spec"]["tls"][0]["hosts"][0], "some-api.local", "host should exist with tls settings")
+        assert_equal(spec["spec"]["tls"][0]["secretName"], "cert.local", "host should exist with the tls secret")
+
+def test_for_config_data():
+    if spec["kind"] == "ConfigMap":
+        assert_equal(spec["data"]["key"], "value", "config map should contains all keys")
+
+def test_revision_history():
+    if spec["kind"] == "Deployment":
+        limit = spec["spec"]["revisionHistoryLimit"]
+        assert_true(limit == 4, "revision history should equal 4")
+
+def test_ports():
+    if spec["kind"] == "Service":
+       assert_equal(spec["spec"]["ports"][0]["targetPort"], 80, "target port should be 80")
+
+test_ports()
+test_name_should_be_service_name()
+test_namespace_should_be_team_name()
+test_for_image_pull_secret()
+test_for_env_from()
+test_for_ingress_host()
+test_for_ingress_host_tls()
+test_for_config_data()
+test_revision_history()

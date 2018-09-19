@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for Web API
+name: web-api
+version: 0.1.0

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "web-api.name" . }}
+  namespace: {{ .Values.team }}
+data:
+{{- if .Values.config }}
+{{ toYaml .Values.config | indent 2 }}
+{{- end }}

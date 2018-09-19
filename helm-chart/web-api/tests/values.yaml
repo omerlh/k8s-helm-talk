@@ -1,0 +1,18 @@
+team: some-team
+nameOverride: some-api
+revisionHistoryLimit: 4
+ingress:
+  enabled: true
+  # Used to create an Ingress record.
+  hosts:
+    - some-api.local
+volumeMounts:
+- name: secret-volume
+  mountPath: /app/secret-volume
+volumes:
+- name: secret-volume
+  secret:
+    secretName: test-secret
+imagePullSecrets: test
+config:
+    key: value

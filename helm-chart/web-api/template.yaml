@@ -1,0 +1,144 @@
+---
+# Source: web-api/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: some-api
+  namespace: some-team
+data:
+  key: value
+  
+---
+# Source: web-api/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: some-api
+  namespace: some-team
+  labels:
+    app: some-api
+    chart: web-api-0.1.0
+    release: RELEASE-NAME
+    heritage: Tiller
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80 
+      targetPort: 80
+      protocol: TCP
+      name: nginx
+  selector:
+    app: some-api
+    release: RELEASE-NAME
+
+---
+# Source: web-api/templates/deployment.yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: some-api
+  namespace: all-day-devops
+  labels:
+    app: some-api
+    chart: web-api-0.1.0
+    release: RELEASE-NAME
+    heritage: Tiller
+    company: Soluto
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  replicas: 1
+  revisionHistoryLimit: 4
+  template:
+    metadata:
+      labels:
+        app: some-api
+        release: RELEASE-NAME
+    spec:
+      containers:
+        - name: web-api
+          image: local/some-api:1
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: /app/secret-volume
+            name: secret-volume
+          
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: 600Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            
+          envFrom:
+           - configMapRef:
+              name: some-api
+      imagePullSecrets:
+        - name: test
+
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: test-secret
+        
+
+---
+# Source: web-api/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: some-api
+  namespace: some-team
+  labels:
+    app: some-api
+    chart: web-api-0.1.0
+    release: RELEASE-NAME
+    heritage: Tiller
+
+spec:
+  rules:
+    - host: some-api.local
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: some-api
+              servicePort: 80
+
+  tls:
+    - hosts:
+      - some-api.local
+
+      secretName: cert.local
+---
+# Source: web-api/templates/autoscaling.yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: some-api
+  namespace: some-team
+  labels:
+    app: some-api
+    chart: web-api-0.1.0
+    release: RELEASE-NAME
+    heritage: Tiller
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: some-api
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
