@@ -3,7 +3,7 @@ FROM microsoft/dotnet:2.1-sdk AS build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY  ./AmazingApi.csproj ./
+COPY  ./hermione.csproj ./
 RUN dotnet restore
 
 # Copy everything else and build
@@ -17,4 +17,4 @@ USER dotnet
 WORKDIR /home/dotnet/app
 ENV ASPNETCORE_URLS=http://+:9999
 COPY --from=build-env /app/obj/Docker/publish .
-ENTRYPOINT ["dotnet", "AmazingApi.dll"]
+ENTRYPOINT ["dotnet", "hermione.dll"]
