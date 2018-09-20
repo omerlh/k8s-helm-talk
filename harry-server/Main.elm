@@ -4,7 +4,8 @@ import Html.Attributes exposing (..)
 main =
   div []
     [ 
-        img [src "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Elm_logo.svg/1024px-Elm_logo.svg.png",
+        p [] [text "Powered by Elm"]
+        , img [src "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Elm_logo.svg/1024px-Elm_logo.svg.png",
         height 40] []
         ,h1 [
           style [
