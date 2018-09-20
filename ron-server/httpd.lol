@@ -49,6 +49,12 @@ HAI 1.4
         I HAS A name ITZ I IZ parse YR cmd MKAY
         VISIBLE "FIEL IZ " AN name
 
+        BOTH SAEM name AN ""
+        O RLY?
+            YA RLY
+                name R "index.html"
+        OIC
+
         I HAS A reply ITZ ""
 
         BTW get the file contents
