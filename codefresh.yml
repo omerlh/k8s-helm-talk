@@ -1,0 +1,4 @@
+helm_package:
+    image: devth/helm
+    commands:
+      - cf_export PACKAGE=$(helm package helm-chart/web-api | cut -d " " -f 8)
