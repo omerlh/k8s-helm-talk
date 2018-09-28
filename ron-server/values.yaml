@@ -1,0 +1,12 @@
+team: alldaydevops
+nameOverride: ron-server
+ingress:
+  enabled: true
+  hosts:
+    - ron.alldaydevops.local
+image:
+  repository: omerlh
+  version: 1
+service:
+  internalPort: 13337
+  isAlivePath: /

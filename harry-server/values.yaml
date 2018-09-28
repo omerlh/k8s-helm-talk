@@ -1,14 +1,14 @@
 team: alldaydevops
-nameOverride: hermione-server
+nameOverride: harry-server
 ingress:
   enabled: true
   # Used to create an Ingress record.
   hosts:
-    - hermione.alldaydevops.local
+    - harry.alldaydevops.local
 image:
   version: 1.0
   repository: omerlh
   pullPolicy: IfNotPresent
 service:
-  internalPort: 9999
+  internalPort: 80
   isAlivePath: /
