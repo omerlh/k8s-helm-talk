@@ -7,6 +7,6 @@ entries:
     digest: e3b15cd52039252f51ae6efd731377729a710fe3a03abab6314ac351f27449dd
     name: web-api
     urls:
-    - https://github.com/omerlh/k8s-helm-talk/web-api-0.1.0.tgz
+    - https://omerlh.github.io/k8s-helm-talk/web-api-0.1.0.tgz
     version: 0.1.0
 generated: 2018-09-28T12:42:25.321620185+03:00
