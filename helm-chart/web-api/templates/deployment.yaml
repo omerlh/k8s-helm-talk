@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "web-api.name" . }}
-  namespace: all-day-devops
+  namespace: {{ .Values.team }}
   labels:
     app: {{ template "web-api.name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
