@@ -3,3 +3,4 @@ bin/
 obj/
 .vs/
 elm-stuff/
+**/node_modules/

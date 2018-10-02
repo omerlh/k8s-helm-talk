@@ -8,5 +8,5 @@ image:
   repository: omerlh
   version: 1
 service:
-  internalPort: 13337
-  isAlivePath: /
+  internalPort: 3000
+  isAlivePath: /health
